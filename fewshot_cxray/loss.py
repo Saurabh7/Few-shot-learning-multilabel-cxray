@@ -82,7 +82,7 @@ class FewShotNCALossMultiLabel(torch.nn.Module):
     def __init__(
         self,
         classes=14,
-        temperature=0.9,
+        temperature=1,
         batch_size=16,
         num_labels=14,
         frac_negative_samples=1,
@@ -90,38 +90,36 @@ class FewShotNCALossMultiLabel(torch.nn.Module):
     ):
         super(FewShotNCALossMultiLabel, self).__init__()
         self.temperature = torch.tensor(float(temperature), requires_grad=True).to(device)
-        self.cls = classes
-        self.batch_size = batch_size
-        self.frac_negative_samples = frac_negative_samples
-        self.frac_positive_samples = frac_positive_samples
         self.num_labels=num_labels
 
     def forward(self, pred, target):
         n, d = pred.shape
-        # identity matrix needed for masking matrix
-        eye = torch.eye(target.shape[0]).to(device)
 
-        # compute distance
         p_norm = torch.pow(torch.cdist(pred, pred), 2)
-        # lower bound distances to avoid NaN errors
         p_norm[p_norm < 1e-10] = 1e-10
         dist = torch.exp(-1 * p_norm / self.temperature).to(device)        
 
         all_pos = torch.zeros(n,n).to(device)
+        all_negs = torch.zeros(n,n).to(device)
+        negated_target = torch.tensor(~(target.type(torch.bool)),  dtype=torch.int16)
+
         for i in range(self.num_labels):
             positives = (target[:, i, None]*target[:, i, None].T)
-            all_pos+=positives
-#         all_pos = all_pos.type(torch.bool)
+            all_pos+= positives
+
+        negatives_matrix = torch.tensor(~all_pos.type(torch.bool), dtype=torch.int16).to(device)
+
         positives_matrix = (
-                    torch.tensor(all_pos, dtype=torch.int16).to(device) - eye
+                    torch.tensor(all_pos, dtype=torch.int16)
                 ).to(device)
 
+        positives_matrix.fill_diagonal_(0)
 
         numerators = torch.sum(dist * positives_matrix, axis=0)
-        denominators = torch.sum(dist, axis=0).to(device)
+        denominators = torch.sum(dist* negatives_matrix, axis=0)
+
         denominators[denominators < 1e-10] = 1e-10
+        frac = numerators / (numerators + denominators )
 
-        frac = numerators / denominators
-
-        loss = -1 * torch.sum(torch.log(frac[frac >= 1e-10])) / n       
+        loss = -1 * torch.sum(torch.log(frac[frac >= 1e-10])) / (n)   
         return loss
