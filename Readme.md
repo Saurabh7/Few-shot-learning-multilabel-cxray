@@ -3,6 +3,8 @@
 
 The dataset labels are available in the labels folder. ~at: [Google Drive Link](https://drive.google.com/drive/folders/14sE39WIgymO059VhWcv4aj0wf8SzrOT9?usp=sharing)~
 
+The weights for pretrained base feature extractor (ResNet) model are available here: [Google Drive Link](https://drive.google.com/file/d/1h0NG_VlF7Ha-IUbq5wAWzIL5Cdz8COY6/view?usp=sharing)
+
 - Deepvoro.ipynb: Jupyter notebook with code for:
   - Loading model weights
   - DC Voronoi LR
