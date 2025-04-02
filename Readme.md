@@ -1,5 +1,6 @@
 ## Few Shot Learning Geometric Ensemble for Multi-label Chest X-Rays
-#### Authors: Dana Moukheiber⋆, Saurabh Mahindre⋆, Lama Moukheiber, Mira Moukheiber, Song Wang, Chunwei Ma, George Shih, Yifan Peng, and Mingchen Gao
+#### Authors: Dana Moukheiber*, Saurabh Mahindre*, Lama Moukheiber, Mira Moukheiber, Song Wang, Chunwei Ma, George Shih, Yifan Peng, and Mingchen Gao
+#### (*) Equal contribution
 
 Paper: [Link](https://link.springer.com/chapter/10.1007/978-3-031-17027-0_12)
 
