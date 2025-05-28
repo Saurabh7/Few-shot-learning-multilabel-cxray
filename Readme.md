@@ -11,7 +11,7 @@ MIMIC CXR dataset and corresponding images are available at: [physionet.org/cont
 . You need to sign-up as a user on physionet and sign the data use agreement.
 
 #### Model Weights
-The weights for pretrained base feature extractor (ResNet) model are available here: [Google Drive Link](https://drive.google.com/file/d/1h0NG_VlF7Ha-IUbq5wAWzIL5Cdz8COY6/view?usp=sharing)
+The weights for pretrained base feature extractor (ResNet) model, NCA model and feature statistics used in Distribution Calibration are available here: [Google Drive Link](https://drive.google.com/drive/folders/17oyc9BoIREtrNhM_-sp67UPltsRBE3Mh?usp=share_link)
 
 #### Notebooks
 - Deepvoro.ipynb: Jupyter notebook with code for:
